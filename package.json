@@ -1,8 +1,8 @@
 {
-  "name": "frontend-inter-week",
+  "name": "inter-week-backend",
   "version": "1.0.0",
   "main": "src/main.ts",
-  "repository": "https://github.com/Guilospanck/Frontend-Inter-Week.git",
+  "repository": "https://github.com/Guilospanck/Inter-Week-Backend.git",
   "author": "Guilherme Rodrigues <guilherme.rp2010@hotmail.com>",
   "license": "MIT",
   "scripts": {
