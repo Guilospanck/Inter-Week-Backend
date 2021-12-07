@@ -1,0 +1,54 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "module": "commonjs",
+    "allowJs": true, 
+    "rootDir": "./src",
+    "outDir": "./build",
+    "baseUrl": "./src", 
+    "esModuleInterop": true,
+    "strict": true,
+    "emitDecoratorMetadata": true,
+    "strictPropertyInitialization": false,
+    "experimentalDecorators": true,
+    "typeRoots": [
+      "./src/@types",
+      "./@types",
+      "./node_modules/@types"
+    ],
+    "paths": {
+      "@app/*": [
+        "applications/*"
+      ],
+      "@business/*": [
+        "business/*"
+      ],
+      "@infra/*": [
+        "infrastructure/*"
+      ],
+      "@interfaces/*": [
+        "interfaces/*"
+      ],
+      "@shared_business/*": [
+        "shared/business/*"
+      ],
+      "@shared_interfaces/*": [
+        "shared/interfaces/*"
+      ],
+      "@shared/*": [
+        "shared/*"
+      ],
+      "@shared_utils/*": [
+        "shared/utils/*"
+      ]
+    },
+    "removeComments": true
+  },
+  "include": [
+    "./src"
+  ],
+  "exclude": [
+    "node_modules",
+    "./src/**/*.spec.ts"
+  ]
+}
