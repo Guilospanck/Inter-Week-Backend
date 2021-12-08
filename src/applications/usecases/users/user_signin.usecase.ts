@@ -5,11 +5,12 @@ import { IUsersRepository } from "@app/interfaces/iusers.repository";
 import { UserSigninDTO } from "@business/dtos/users/user_signin.dto";
 import { User } from "@business/entities/user";
 import { BaseError } from "@business/errors/base_error";
+import { IUserSigninUsecase } from "@business/usecases/users/iuser_signin.usecase";
 import { Either, left, right } from "@shared/utils/either";
 
 import { SHA256 } from 'crypto-js';
 
-export class UserSigninUseCase {
+export class UserSigninUseCase implements IUserSigninUsecase {
 
   constructor(
     private readonly _userRepository: IUsersRepository
