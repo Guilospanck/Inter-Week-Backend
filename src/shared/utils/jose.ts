@@ -2,39 +2,8 @@ import { BaseError } from '@business/errors/base_error';
 import { JWE, JWK } from 'node-jose';
 import { Base64Util } from './base64';
 import { Either, left, right } from './either';
-import { generateKeyPair } from 'crypto';
 
-type Keys = {
-  publicKey: string,
-  privateKey: string
-}
-
-export const Jose = (privateKey: JWK.Key, publicKey: JWK.Key) => {
-
-  const generateKeys = (): Either<BaseError, Keys> => {
-    generateKeyPair('rsa',
-      {
-        modulusLength: 4096,
-        publicKeyEncoding: {
-          type: 'spki',
-          format: 'pem'
-        },
-        privateKeyEncoding: {
-          type: 'pkcs8',
-          format: 'pem',
-          cipher: 'aes-256-cbc',
-        }
-      }, (err, publicKey, privateKey) => {
-        if (err) return left(new Error('Error trying to generate keys.'));
-
-        return right({
-          publicKey,
-          privateKey
-        });
-
-      });
-  };
-
+export const Jose = (privateKey: JWK.Key, publicKey: JWK.Key) => {  
   const encrypt = async (raw: any): Promise<Either<BaseError, string>> => {
     if (!raw) return left(new Error('Missing raw data.'));
 
@@ -57,7 +26,11 @@ export const Jose = (privateKey: JWK.Key, publicKey: JWK.Key) => {
     } catch (error) {
       return left(new Error('Error trying to decrypt using JOSE.'));
     }
+  };
 
+  return {
+    encrypt,
+    decrypt
   };
 
 };

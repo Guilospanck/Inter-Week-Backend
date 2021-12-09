@@ -12,7 +12,7 @@ export class UserRepository implements IUsersRepository {
   public async createUser(user: UserCreationDTO): Promise<Either<BaseError, User | undefined>> {
     try {
       this.repository = getRepository(User);
-      const userCreated = await this.repository.create(user);
+      const userCreated = await this.repository.save(user);
       return right(userCreated);
     } catch (error) {
       return left(error as BaseError);
