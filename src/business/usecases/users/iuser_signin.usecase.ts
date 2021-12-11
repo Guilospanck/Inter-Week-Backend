@@ -4,5 +4,5 @@ import { BaseError } from "@business/errors/base_error";
 import { Either } from "@shared/utils/either";
 
 export interface IUserSigninUsecase {
-  signin(user: UserSigninDTO): Promise<Either<BaseError, User>>
+  signin(user: UserSigninDTO): Promise<Either<BaseError, string>>
 }

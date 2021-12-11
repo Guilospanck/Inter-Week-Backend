@@ -17,21 +17,20 @@ export class UserSignupUseCase {
   ) { }
 
   async signup(user: UserSignupDTO): Promise<Either<BaseError, string>> {
-    const { firstName, lastName, email, password } = user;
+    const { email, password } = user;
 
     // verifies if user exists
     const userExists = await this._userRepository.getUserByEmail(email);
     if (userExists.isLeft()) return left(new InternalServerError('Error trying to get email from user table.'));
     if (userExists.value) return left(new ConflictError('There is already an user with this email.'));
-
-    // hashes passwords
-    const hashedPassword = SHA256(password).toString();
-
+    
     // gets last user
     const lastUser = await this._userRepository.getLastUser();
     if(lastUser.isLeft()) return left(new InternalServerError('Error trying to get last user from table.'));
     const lastWalletNumber = lastUser.value?.wallet || 0;
-
+    
+    // hashes passwords
+    const hashedPassword = SHA256(password).toString();
     
     const userData: UserCreationDTO = {
       ...user,

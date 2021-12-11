@@ -12,8 +12,40 @@ export class UserKeysRepository implements IUserKeysRepository {
   public async createUserKeys(userKeysDTO: UserKeysCreationDTO): Promise<Either<BaseError, UserKeys | undefined>> {
     try {
       this.repository = getRepository(UserKeys);
-      const userKeysCreated = await this.repository.save(userKeysDTO);
+      const userKeysCreated = await this.repository.save({ ...userKeysDTO });
       return right(userKeysCreated);
+    } catch (error) {
+      return left(error as BaseError);
+    }
+  }
+
+  public async getUserKeysByUserId(userId: string): Promise<Either<BaseError, UserKeys | undefined>> {
+    try {
+      this.repository = getRepository(UserKeys);
+      const userKeysExists = await this.repository.findOne({
+        where: {
+          user: userId,
+        }
+      });
+      return right(userKeysExists);
+    } catch (error) {
+      return left(error as BaseError);
+    }
+  }
+
+  public async updateUserKeys(id: string, userKeysDTO: UserKeysCreationDTO): Promise<Either<BaseError, UserKeys | undefined>> {
+    try {
+      this.repository = getRepository(UserKeys);
+      const userKeysUpdated = await this.repository.update({ id }, { ...userKeysDTO }).then(response => response.raw[0]);
+      return right(userKeysUpdated);
+      // const userKeysUpdated = await this.repository
+      //   .createQueryBuilder('user_keys')
+      //   .update<UserKeys>(UserKeys, { ...userKeysDTO })
+      //   .where('user_keys.id = :id', { id })
+      //   .returning(['*'])
+      //   .updateEntity(true)
+      //   .execute();      
+      // return right(userKeysUpdated.raw[0]);
     } catch (error) {
       return left(error as BaseError);
     }
@@ -33,20 +65,6 @@ export class UserKeysRepository implements IUserKeysRepository {
   //   }
   // }
 
-
-  // public async getUserByEmail(email: string): Promise<Either<BaseError, User | undefined>> {
-  //   try {
-  //     this.repository = getRepository(User);
-  //     const userExists = await this.repository.findOne({
-  //       where: {
-  //         email,
-  //       }
-  //     });
-  //     return right(userExists);
-  //   } catch (error) {
-  //     return left(error as BaseError);
-  //   }
-  // }
 
   // public async getUserByEmailAndPassword(email: string, password: string): Promise<Either<BaseError, User | undefined>> {
   //   try {

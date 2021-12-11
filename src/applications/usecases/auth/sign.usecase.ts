@@ -40,15 +40,26 @@ export class AuthSignUseCase implements IAuthSignUsecase {
     const encrypted = await Jose(privateKey, publicKey).encrypt(token);
     if (encrypted.isLeft()) return left(new Error(encrypted.value.message));
 
-    // saves to UserKeys database
+    // creates the object to be saved/updated
     const userKeysData: UserKeysCreationDTO = {
       user: userData,
       publicKey: keys.value.publicKey,
       privateKey: keys.value.privateKey,
     };
 
-    const userKeysCreated = await this._userKeysRepository.createUserKeys(userKeysData);
-    if(userKeysCreated.isLeft()) return left(new Error(userKeysCreated.value.message));
+    // verifies if userKeys for this user already exists
+    const userKeysExists = await this._userKeysRepository.getUserKeysByUserId(userData.id);
+    if(userKeysExists.isLeft()) return left(new Error(userKeysExists.value.message));
+    
+    // if it does, just update it
+    if(userKeysExists.value) {
+      const userKeysUpdated = await this._userKeysRepository.updateUserKeys(userKeysExists.value?.id, userKeysData);
+      if(userKeysUpdated.isLeft()) return left(new Error(userKeysUpdated.value.message));
+    } else {
+      // otherwise, creates a new one
+      const userKeysCreated = await this._userKeysRepository.createUserKeys(userKeysData);
+      if(userKeysCreated.isLeft()) return left(new Error(userKeysCreated.value.message));
+    }
 
     return right(encrypted.value);
   }

@@ -12,7 +12,7 @@ const userRouter = Router();
 const userRepository = new UserRepository();
 const userKeysRepository = new UserKeysRepository();
 const authSignUseCase = new AuthSignUseCase(userKeysRepository);
-const userSigninUseCase = new UserSigninUseCase(userRepository);
+const userSigninUseCase = new UserSigninUseCase(userRepository, authSignUseCase);
 const userSignupUseCase = new UserSignupUseCase(userRepository, authSignUseCase);
 const userController = new UserController(userSigninUseCase, userSignupUseCase);
 
