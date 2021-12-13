@@ -51,34 +51,4 @@ export class UserKeysRepository implements IUserKeysRepository {
     }
   }
 
-  // public async getLastUser(): Promise<Either<BaseError, User | undefined>> {
-  //   try {
-  //     this.repository = getRepository(User);
-  //     const lastUser = await this.repository.findOne({
-  //       order: {
-  //         id: 'DESC'
-  //       }
-  //     });
-  //     return right(lastUser);
-  //   } catch (error) {
-  //     return left(error as BaseError);
-  //   }
-  // }
-
-
-  // public async getUserByEmailAndPassword(email: string, password: string): Promise<Either<BaseError, User | undefined>> {
-  //   try {
-  //     this.repository = getRepository(User);
-  //     const userExists = await this.repository.findOne({
-  //       where: {
-  //         email,
-  //         password
-  //       }
-  //     });
-  //     return right(userExists);
-  //   } catch (error) {
-  //     return left(error as BaseError);
-  //   }
-  // }
-
 }

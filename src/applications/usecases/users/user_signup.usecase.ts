@@ -29,7 +29,7 @@ export class UserSignupUseCase implements IUserSignupUsecase {
     // gets last user
     const lastUser = await this._userRepository.getLastUser();
     if (lastUser.isLeft()) return left(new InternalServerError('Error trying to get last user from table.'));
-    const lastWalletNumber = lastUser.value?.wallet || 0;
+    const lastWalletNumber = lastUser.value?.wallet || 100;
 
     // hashes passwords
     const hashedPassword = SHA256(password).toString();
