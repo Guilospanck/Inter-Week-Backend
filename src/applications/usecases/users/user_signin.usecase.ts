@@ -3,6 +3,7 @@ import { NotFoundError } from "@app/errors/notfound.error";
 import { IUsersRepository } from "@app/interfaces/iusers.repository";
 
 import { UserSigninDTO } from "@business/dtos/users/user_signin.dto";
+import { UserSignReturn } from "@business/dtos/users/user_sign_return.dto";
 import { User } from "@business/entities/user";
 import { BaseError } from "@business/errors/base_error";
 import { IAuthSignUsecase } from "@business/usecases/auth/isign.usecase";
@@ -18,7 +19,7 @@ export class UserSigninUseCase implements IUserSigninUsecase {
     private readonly _authSignUsecase: IAuthSignUsecase
   ) { }
 
-  async signin(user: UserSigninDTO): Promise<Either<BaseError, string>> {
+  async signin(user: UserSigninDTO): Promise<Either<BaseError, UserSignReturn>> {
     const { email, password } = user;
 
     const hashedPassword = SHA256(password).toString();
@@ -30,9 +31,13 @@ export class UserSigninUseCase implements IUserSigninUsecase {
 
     // gets token encrypted with JOSE
     const accessToken = await this._authSignUsecase.sign(userExists.value as User);
-    if(accessToken.isLeft()) return left(new InternalServerError('Error trying to get accessToken'));
+    if (accessToken.isLeft()) return left(new InternalServerError('Error trying to get accessToken'));
 
-    return right(accessToken.value);
+    return right(
+      {
+        accessToken: accessToken.value
+      }
+    );
   }
 
 }

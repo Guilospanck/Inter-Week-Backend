@@ -2,7 +2,7 @@ import { Response, NextFunction } from 'express';
 import { HttpRequest } from '@infra/http';
 import { BaseMiddleware } from '@interfaces/middlewares/base_middleware';
 
-export const MiddlewareAdapt = (middleware: BaseMiddleware, ...params: any[]) => {
+export const MiddlewareAdapter = (middleware: BaseMiddleware, ...params: any[]) => {
   return async (req: any, res: Response, next: NextFunction) => {
     const httpRequest: HttpRequest = {
       headers: req.headers,
@@ -13,7 +13,10 @@ export const MiddlewareAdapt = (middleware: BaseMiddleware, ...params: any[]) =>
     const resolve = await middleware.handler(httpRequest, params);
 
     if (resolve.statusCode >= 400) {
-      return res.status(resolve.statusCode).header(resolve?.headers).json({ statusCode: resolve.statusCode, message: resolve.body });
+      return res
+        .status(resolve.statusCode)
+        .header(resolve?.headers)
+        .json({ statusCode: resolve.statusCode, message: resolve.body });
     }
 
     if (resolve.statusCode === 299) {
