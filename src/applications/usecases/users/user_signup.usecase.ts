@@ -50,9 +50,13 @@ export class UserSignupUseCase implements IUserSignupUsecase {
     const accessToken = await this._authSignUsecase.sign(userCreated.value as User);
     if (accessToken.isLeft()) return left(new InternalServerError('Error trying to get accessToken'));
 
+    // @ts-expect-error
+    delete userData.password;
+
     return right(
       {
-        accessToken: accessToken.value
+        accessToken: accessToken.value,
+        user: userData
       }
     );
   }

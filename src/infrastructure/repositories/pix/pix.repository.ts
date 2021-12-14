@@ -3,8 +3,9 @@ import { getRepository, Repository } from 'typeorm';
 import { Either, left, right } from '@shared/utils/either';
 import { BaseError } from '@business/errors/base_error';
 import { PixCreateDTO } from "@business/dtos/pix/pix_create.dto";
+import { IPixRepository } from "@app/interfaces/ipix.repository";
 
-export class PixRepository {
+export class PixRepository implements IPixRepository {
   private repository: Repository<Pix>;
   constructor() { }
 

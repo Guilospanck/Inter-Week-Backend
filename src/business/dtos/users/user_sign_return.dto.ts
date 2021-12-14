@@ -1,3 +1,6 @@
+import { User } from "@business/entities/user";
+
 export interface UserSignReturn {
-  accessToken: string
+  accessToken: string,
+  user: Partial<User>
 }
