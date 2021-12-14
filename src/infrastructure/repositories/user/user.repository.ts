@@ -63,4 +63,28 @@ export class UserRepository implements IUsersRepository {
     }
   }
 
+  public async getUserById(id: string): Promise<Either<BaseError, User | undefined>> {
+    try {
+      this.repository = getRepository(User);
+      const userExists = await this.repository.findOne({
+        where: {
+          id
+        }
+      });
+      return right(userExists);
+    } catch (error) {
+      return left(error as BaseError);
+    }
+  }
+
+  public async updateUser(id: string, user: UserCreationDTO): Promise<Either<BaseError, User | undefined>> {
+    try {
+      this.repository = getRepository(User);
+      const userUpdated = await this.repository.update({ id }, { ...user }).then(response => response.raw[0]);
+      return right(userUpdated);
+    } catch (error) {
+      return left(error as BaseError);
+    }
+  }
+
 }

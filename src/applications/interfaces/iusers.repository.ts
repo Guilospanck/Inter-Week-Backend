@@ -7,5 +7,7 @@ export interface IUsersRepository {
   createUser: (user: UserCreationDTO) => Promise<Either<BaseError, User | undefined>>
   getUserByEmail: (email: string) => Promise<Either<BaseError, User | undefined>>
   getUserByEmailAndPassword: (email: string, password: string) => Promise<Either<BaseError, User | undefined>>
-  getLastUser: () => Promise<Either<BaseError, User | undefined>>
+  getLastUser: () => Promise<Either<BaseError, User | undefined>>,
+  getUserById: (id: string) => Promise<Either<BaseError, User | undefined>>,
+  updateUser: (id: string, user: UserCreationDTO) => Promise<Either<BaseError, User | undefined>>
 }

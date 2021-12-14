@@ -1,4 +1,5 @@
 import { UserAuthenticationUsecase } from "@app/usecases/auth/user_authentication.usecase";
+import { PixPayUsecase } from "@app/usecases/pix/pix_pay.usecase";
 import { PixRequestUsecase } from "@app/usecases/pix/pix_request.usecase";
 import { MiddlewareAdapter } from "@infra/adapters/express.middleware.adapter";
 import { RouteAdapter } from "@infra/adapters/express.router.adapter";
@@ -16,7 +17,8 @@ const userRepository = new UserRepository();
 
 const pixRepository = new PixRepository();
 const pixRequestUsecase = new PixRequestUsecase(userRepository, pixRepository);
-const pixController = new PixController(pixRequestUsecase);
+const pixPayUsecase = new PixPayUsecase(userRepository, pixRepository);
+const pixController = new PixController(pixRequestUsecase, pixPayUsecase);
 
 const userAuthenticationUseCase = new UserAuthenticationUsecase(userKeysRepository);
 const authenticationMiddleware = new AuthenticationMiddleware(userAuthenticationUseCase);
@@ -25,6 +27,12 @@ pixRouter.post(
   '/request',  
   MiddlewareAdapter(authenticationMiddleware),
   RouteAdapter(pixController.request.bind(pixController))
+);
+
+pixRouter.post(
+  '/pay',  
+  MiddlewareAdapter(authenticationMiddleware),
+  RouteAdapter(pixController.pay.bind(pixController))
 );
 
 export default pixRouter;
