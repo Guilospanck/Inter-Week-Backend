@@ -1,5 +1,7 @@
 # Inter-Week-Backend
-This is the backend part of the "Frontend Inter Week" series. The main goal of this series is to develop a copy of the web interface from [Banco Inter](https://www.bancointer.com.br/). However, I'm not following the step by step provided, but making it into my own professional living.
+This is the backend part based on the "Frontend Inter Week" series. The main goal of this series is to develop a copy of the web interface from [Banco Inter](https://www.bancointer.com.br/). However, here the series is used just as an example to be based on. Everything (from Project Structure, to coding, documentation, tests) is different.
+
+The application provides signin and signup with asymmetrical keys using JWT and JOSE (the JWT token is encrypted. So, without the private key, people can't really know which information are in there). Also, we can make money transferences between the participants (known in Brazil as PIX).
 
 <p align="center">
 ➡️ 👷🚧 <b>Under Construction...</b>
@@ -12,6 +14,8 @@ This is the backend part of the "Frontend Inter Week" series. The main goal of t
 - PostgreSQL
 - Clean Code Architecture
 - Design Patterns
+- JWT
+- JOSE (JSON Object Signing and Encryption)
 
 ## Project Structure
 I'm using <b>Clean Code Architecture</b> for this project. The reason is because it provides a nicer and better way of changing and maintening the code, besides providing us the best out of <b>design patterns</b> and <b>S.O.L.I.D. principles</b>.
