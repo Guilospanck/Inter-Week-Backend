@@ -22,13 +22,13 @@ export class PixRequestUsecase implements IPixRequestUsecase {
     if (userExists.isLeft()) return left(new InternalServerError('Error trying to get user.'));
     if (!userExists.value) return left(new NotFoundError('There is no User with this email.'));
 
-    const requestingUserId = userExists.value.id;
+    const requestingUser = userExists.value;
 
     // creates Pix transaction
     const pixCreateDTO: PixCreateDTO = {
       status: 'open',
       value,
-      requestingUserId
+      requestingUser: requestingUser
     };
     const pixTransactionCreated = await this._pixRepository.createPixTransaction(pixCreateDTO);
     if (pixTransactionCreated.isLeft()) return left(new InternalServerError('Error trying to save Pix transaction.'));
@@ -36,7 +36,7 @@ export class PixRequestUsecase implements IPixRequestUsecase {
     const pixTransactionId = pixTransactionCreated.value?.id;
 
     // encodes pix key
-    const pixKeyEncoded = PixEncodeDecodeUtils().encode(requestingUserId, value, pixTransactionId as string);
+    const pixKeyEncoded = PixEncodeDecodeUtils().encode(requestingUser.id, value, pixTransactionId as string);
 
     return right({
       pixKey: pixKeyEncoded,
