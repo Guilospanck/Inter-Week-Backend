@@ -108,3 +108,22 @@ Then, once the database is up and running and you already have a database there 
 yarn start:dev
 ```
 to run the HTTP Server and the connection to the database.
+
+## Using the application
+On the `docs/` folder we have the [Insomnia](https://insomnia.rest/) JSON file that can be imported and is ready to use.
+- First you have to do the user `signup` in order to create the user in the database (be sure to remember its credentials `email` and `password`;
+- Then create another user the same way. You do this in order to transfer money from one to another.
+- `Signin` with one of the users; get its `userId` and `accessToken` and put it on the Insomnia Environments (Ctrl E);
+
+Example:
+```json
+{
+	"BASE_URL": "http://localhost:4444",
+	"TOKEN": "eyJyZWNpcGllbnRzIjpbeyJlbmNyeXB0ZWRfa2V5IjoibHE3cUpRR0J1Q1RtQzlYaWxEd1Y0Z0NsTkszUEk4UXd6am5NRnoxRWFrVVpYcEFRWUVjMnlNcVpPQ2VKdGtXY0s5aHAyYWdfRkJDWW10Z1NWVDQtbEpycUN2d3l6bzNXbG4xMWpNN2xzTUMwcjlaYXltc05GNUdfaVNma2VUZmhMYlk5V1FXTVpIT0tWVGZjN1JtSjR4TVBVWEFvUVE0MGdtcl9VMGwwMzZ5aHJNYTZlRG9DazVIMUQyWUROVWRDSk91eUdHMW1BMHhUWHljdWZyOTYtUXJYdFlvc2JvM3VOQ2NvaGxabGtKQ19nY25CYW9aLXZ2VU1GU2ViaDh0bWtOTnVCMVFKR0tkbkVId0dtbGZCbEFNVUpUNzkzLUUyTWJPemZSOVdBYms3dWJrLUd3R1JnZkk5WkZ4aVpkM2xWYzV1cHpoVmNBazYxWmVLdWJxVF9PM09qR25oOTZCa1llNzduS3A2dmRJbnV2YTFaZDJaY1ljS1ZZVnpOeUpLV29NeGNtM1hYZmVlUERhU1IzNTFESjFSdmppVVhBUDF5b2FmNkJNbXgtaUVsT0RjLURuVjh1YW8yRkZabjNPNkRkcDZoOFBjRGxFUXFWUkdVbUwtV2pUNGxGNktKLUFPSFlIUkxxaEQ4MHYteTdnVVN2aS1BbGVjQmQ3Mmcwb3VMamN1SXdfbFpVQWR2ckZ3NG1YWGxrT2NNWGtldE54VWQ1ZUFLMmdWY2l5blUyUkVOS0oyVzIzM0VaQmlzaUJJa21FS0JkOXNfYWNUSmduSzNSajFtb2FsNnBPbnVpYmNJSGxMZ2gzZk9od2dvUDJUOW81Mlh3S3ZKY0xLQkpGU3BpZmFZa1dIUUt4M0t5NjEwY3MwcHFQYlF5bWRlbW41MTVpWW1mVl9pT2MifV0sInByb3RlY3RlZCI6ImV5SmxibU1pT2lKQk1USTRRMEpETFVoVE1qVTJJaXdpWVd4bklqb2lVbE5CTFU5QlJWQWlMQ0pyYVdRaU9pSkhaSGRYTTNoS1ExTTFka1ExTmtScVZuSnBVWEI1VWtvMlNsVmtSbFZuWVVveGFYSkVOMDkwVkdOTkluMCIsIml2IjoiSmxQbjkwem00ZTVNZnYwQzJjZHhMUSIsImNpcGhlcnRleHQiOiJaU0JuTks3RHJjVmdDUGExd0NOQzgzUVJGU1Q3NDFaTWpfLVh4SlBEbk85VnB0Tktnd0hfYkNuYlBJUFlRVlNwQVZ3Q19pZmxPZFZpVVlDZnNQT2t2TkRjbHZCUDEwMzRFY2xVMTFFV2t1WUFVU2ZjRjk4U1h1Z2hoZXdpS3NJR2xTd1pxQlVBM29HcTJtVlgyakI3UF9GeEVmdmdSTFU2STJjV3F6dndUMWFzcldjNndRS3V4Mjc5M3lLOVFFbG92ZUE2ZjBDQnpuZDlVUVdhUzBqbzlvemxNdU5ONEx1U3A4UnNvRC0zVHJ3RFdpajNVSEpSSmZtS1RVM1MxWGViWWJSaEpuNWtmMjdtTjVZTklheTJqM0JYSWhubTYxNUNkNFB4WlA3Mlg4a3FoVkxIM1RQOWFKRVNBWWRyWGpfV1lPZU95NllDYWNUaGgwc3FJLWR0RnZ1Zm5PSElqdG55WVNrOF9lemZ0cjhSa0FQRVM3T0JBM01TZ2xjak9uSnpUNm8xTlI3OXVWb2FGUzZaZnAydUNHcGFjaE54TEd1aXd2bG03TnFuM08tX1dXWXlzOVFycmRwU2FSS2FmT1NXb0ZsM1k1Q0RGcWRGMVJrcHJBZ3hyNVJlMl9qalFCTTJCb3RVeHN6a21NMk5UOHYzWkYxTEpRVjlBYV9fS1FVMTBBSUFNSjdzZU9pWTRHM3lVZnpWVlp2YlZmZUdKSVNzRm9VQnNZbFBCZEkiLCJ0YWciOiJSSHR3ZW9RLWNqdHRZdFhUNkU3WnhBIn0=",
+	"USER_ID": "0aed60cb-a16a-429f-b429-169ff33040e9"
+}
+```
+
+- Then, on the `Pix` section, `Request` a new payment of some value. Copy the `pixKey` returned. This is the code you'll use to pay with another user;
+- `Signin` with the other user, change the Insomnia environment with its credentials and then on the `Pix` section go to `Pay` and paste the `pixKey` from the previous step on the `key` field;
+- On your database now you should have a 'closed' transactions and users created.
