@@ -81,7 +81,29 @@ Run Yarn to install dependencies
 ```bash
 yarn
 ```
-and then 
+Be sure to have an instance of PostgreSQL up and running with the following credentials (you can see then in the `ormconfig.json` file):
+```json
+{
+  "name": "default",
+  "type": "postgres",
+  "host": "localhost",
+  "port": 5432,
+  "username": "postgres",
+  "password": "123456",
+  "database": "inter",
+  "entities": ["src/business/entities/*.ts"],
+  "logging": false,
+  "synchronize": true
+}
+```
+One simple and quick way to have it running is to run it on Docker.
+Once you have [Docker](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-20-04) installed, you can run on the terminal:
+```bash
+docker run --rm --name pg-docker -e POSTGRES_PASSWORD=123456 -e POSTGRES_DB=default -d -p 5432:5432 -v $HOME/docker/volumes/postgres:/var/lib/postgresql/data postgres
+```
+Also, personally, I like [DBeaver](https://dbeaver.io/) as a Graphical Interface to the database.
+
+Then, once the database is up and running and you already have a database there with the above configurations, you can run on the terminal:
 ```bash
 yarn start:dev
 ```
