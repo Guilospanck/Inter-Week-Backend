@@ -42,4 +42,56 @@ export class PixRepository implements IPixRepository {
       return left(error as BaseError);
     }
   }
+
+  public async getTransactionsFromRequestingUserId(requestingUserId: string): Promise<Either<BaseError, Pix[] | undefined>> {
+    try {
+      this.repository = getRepository(Pix);
+      const pixTransactions = await this.repository.find(
+        {
+          where: {
+            requestingUser: requestingUserId
+          },
+          relations: ['payingUser']
+        }
+      )
+      return right(pixTransactions);
+    } catch (error) {
+      return left(error as BaseError);
+    }
+  }
+
+  public async getTransactionsFromPayingUserId(payingUserId: string): Promise<Either<BaseError, Pix[] | undefined>> {
+    try {
+      this.repository = getRepository(Pix);
+      const pixTransactions = await this.repository.find(
+        {
+          where: {
+            payingUser: payingUserId
+          },
+          relations: ['requestingUser']
+        }
+      )
+      return right(pixTransactions);
+    } catch (error) {
+      return left(error as BaseError);
+    }
+  }
+
+  public async getAllTransactionsInvolvingUserId(userId: string): Promise<Either<BaseError, Pix[] | undefined>> {
+    try {
+      this.repository = getRepository(Pix);
+      const pixTransactions = await this.repository.find(
+        {
+          where: [
+            { payingUser: userId },
+            { requestingUser: userId }
+          ],
+          relations: ['requestingUser', 'payingUser']
+        }
+      )
+      return right(pixTransactions);
+    } catch (error) {
+      return left(error as BaseError);
+    }
+  }
 }
