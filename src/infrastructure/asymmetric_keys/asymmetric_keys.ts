@@ -1,21 +1,13 @@
 import { BaseError } from '@business/errors/base_error';
 import { generateKeyPairSync } from 'crypto';
 import { JWK } from 'node-jose';
-import { Either, left, right } from './either';
+import { Either, left, right } from '@shared_utils/either';
+import { IAsymmetricKeys, JWKeys, Keys } from '@app/interfaces/iasymmetric_keys';
 
-type Keys = {
-  publicKey: string,
-  privateKey: string
-}
+export class AsymmetricKeys implements IAsymmetricKeys {
+  constructor() { }
 
-type JWKeys = {
-  privateJWKey: JWK.Key,
-  publicJWKey: JWK.Key,
-}
-
-export const AsymmetricKeys = () => {
-
-  const generateKeys = (): Either<BaseError, Keys> => {
+  generateKeys(): Either<BaseError, Keys> {
     try {
       const {
         publicKey, privateKey
@@ -41,25 +33,20 @@ export const AsymmetricKeys = () => {
     }
   };
 
-  const getKeysAsJWKKey = async (keys: Keys): Promise<Either<BaseError, JWKeys>> => {
+  async getKeysAsJWKKey(keys: Keys): Promise<Either<BaseError, JWKeys>> {
     try {
-      const { publicKey, privateKey } = keys;   
-  
+      const { publicKey, privateKey } = keys;
+
       const privateJWKey = await JWK.asKey(privateKey, 'pem');
       const publicJWKey = await JWK.asKey(publicKey, 'pem');
-  
+
       return right({
         privateJWKey,
         publicJWKey
       });
-      
+
     } catch (error) {
       return left(new Error('Error trying to get string keys as JWK.Key'));
     }
-  };
-
-  return {
-    generateKeys,
-    getKeysAsJWKKey
   };
 }

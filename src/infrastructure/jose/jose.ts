@@ -1,10 +1,13 @@
 import { BaseError } from '@business/errors/base_error';
 import { JWE, JWK } from 'node-jose';
-import { Base64Util } from './base64';
-import { Either, left, right } from './either';
+import { Base64Util } from '@shared_utils/base64';
+import { Either, left, right } from '@shared_utils/either';
+import { IJose } from '@app/interfaces/ijose';
 
-export const Jose = (privateKey: JWK.Key, publicKey: JWK.Key) => {  
-  const encrypt = async (raw: any): Promise<Either<BaseError, string>> => {
+export class Jose implements IJose {
+  constructor() { }
+
+  async encrypt(raw: any, publicKey: JWK.Key): Promise<Either<BaseError, string>> {
     if (!raw) return left(new Error('Missing raw data.'));
 
     try {
@@ -16,7 +19,7 @@ export const Jose = (privateKey: JWK.Key, publicKey: JWK.Key) => {
     }
   };
 
-  const decrypt = async (encrypted: string): Promise<Either<BaseError, any>> => {
+  async decrypt(encrypted: string, privateKey: JWK.Key): Promise<Either<BaseError, any>> {
     if (!encrypted) return left(new Error('Missing encrypted data.'));
 
     try {
@@ -26,11 +29,6 @@ export const Jose = (privateKey: JWK.Key, publicKey: JWK.Key) => {
     } catch (error) {
       return left(new Error('Error trying to decrypt using JOSE.'));
     }
-  };
-
-  return {
-    encrypt,
-    decrypt
   };
 
 };

@@ -6,6 +6,8 @@ import { PixTransactionAsPayingUserUsecase } from "@app/usecases/pix/pix_transac
 import { PixTransactionAsRequestingUserUsecase } from "@app/usecases/pix/pix_transactions_as_requesting_user.usecase";
 import { MiddlewareAdapter } from "@infra/adapters/express.middleware.adapter";
 import { RouteAdapter } from "@infra/adapters/express.router.adapter";
+import { AsymmetricKeys } from "@infra/asymmetric_keys/asymmetric_keys";
+import { Jose } from "@infra/jose/jose";
 import { PixRepository } from "@infra/repositories/pix/pix.repository";
 import { UserRepository } from "@infra/repositories/user/user.repository";
 import { UserKeysRepository } from "@infra/repositories/user_keys/user_keys.repository";
@@ -28,7 +30,9 @@ const pixController = new PixController(pixRequestUsecase,
   pixPayUsecase, pixTransactionAsRequestingUserUsecase, pixTransactionAsPayingUserUsecase,
   pixGetAllTransactionsFromUser);
 
-const userAuthenticationUseCase = new UserAuthenticationUsecase(userKeysRepository);
+const jose = new Jose();
+const asymmetricKeys = new AsymmetricKeys();
+const userAuthenticationUseCase = new UserAuthenticationUsecase(userKeysRepository, jose, asymmetricKeys);
 const authenticationMiddleware = new AuthenticationMiddleware(userAuthenticationUseCase);
 
 pixRouter.post(
