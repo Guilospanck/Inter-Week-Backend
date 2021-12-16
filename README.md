@@ -16,6 +16,7 @@ The application provides signin and signup with asymmetrical keys using JWT and 
 - Design Patterns
 - JWT
 - JOSE (JSON Object Signing and Encryption)
+- Jest
 
 ## Project Structure
 I'm using <b>Clean Code Architecture</b> for this project. The reason is because it provides a nicer and better way of changing and maintening the code, besides providing us the best out of <b>design patterns</b> and <b>S.O.L.I.D. principles</b>.
