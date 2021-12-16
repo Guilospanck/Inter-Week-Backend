@@ -15,21 +15,42 @@ function makeSut() {
 describe('AuthSignUsecase', () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    jest.resetAllMocks();
+    jest.restoreAllMocks();
   });
 
-  it('Should sign (in and up) a user and return its encrypted token', async () => {
+  it('Should signup, create user and return its encrypted token', async () => {
     // arrange
     const { sut } = makeSut();
     jest.spyOn(asymmetricKeysSpy, 'generateKeys').mockReturnValueOnce(right(keysSpy));
-
     const JWKeysSpy: JWKeys = {
       privateJWKey: await privateJWKeySpy(),
       publicJWKey: await publicJWKeySpy(),
     };
     jest.spyOn(asymmetricKeysSpy, 'getKeysAsJWKKey').mockResolvedValueOnce(right(JWKeysSpy));
+    jest.spyOn(joseSpy, 'encrypt').mockResolvedValueOnce(right(rawEncryptedSpy));
+    jest.spyOn(userKeysRepositorySpy, 'getUserKeysByUserId').mockResolvedValueOnce(right(undefined));
+    jest.spyOn(userKeysRepositorySpy, 'createUserKeys').mockResolvedValueOnce(right(userKeysSpy));
 
-    jest.spyOn(joseSpy, 'encrypt').mockResolvedValueOnce(right(rawEncryptedSpy))
+    // act
+    const result = await sut.sign(userSpy);
 
+    // assert
+    expect(result.isRight()).toBeTruthy();
+    expect(typeof (result.value)).toBe('string');
+    expect(result.value).toEqual(rawEncryptedSpy);
+  });
+
+  it('Should signin, update user and return its encrypted token', async () => {
+    // arrange
+    const { sut } = makeSut();
+    jest.spyOn(asymmetricKeysSpy, 'generateKeys').mockReturnValueOnce(right(keysSpy));
+    const JWKeysSpy: JWKeys = {
+      privateJWKey: await privateJWKeySpy(),
+      publicJWKey: await publicJWKeySpy(),
+    };
+    jest.spyOn(asymmetricKeysSpy, 'getKeysAsJWKKey').mockResolvedValueOnce(right(JWKeysSpy));
+    jest.spyOn(joseSpy, 'encrypt').mockResolvedValueOnce(right(rawEncryptedSpy));
     jest.spyOn(userKeysRepositorySpy, 'getUserKeysByUserId').mockResolvedValueOnce(right(userKeysSpy));
     jest.spyOn(userKeysRepositorySpy, 'updateUserKeys').mockResolvedValueOnce(right(userKeysSpy));
 
@@ -40,5 +61,128 @@ describe('AuthSignUsecase', () => {
     expect(result.isRight()).toBeTruthy();
     expect(typeof (result.value)).toBe('string');
     expect(result.value).toEqual(rawEncryptedSpy);
+  });
+
+  it('Should return left if asymmetricKeys.generateKeys returns left', async () => {
+    // arrange
+    const { sut } = makeSut();
+    jest.spyOn(asymmetricKeysSpy, 'generateKeys').mockReturnValueOnce(left(new Error()));
+    const JWKeysSpy: JWKeys = {
+      privateJWKey: await privateJWKeySpy(),
+      publicJWKey: await publicJWKeySpy(),
+    };
+    jest.spyOn(asymmetricKeysSpy, 'getKeysAsJWKKey').mockResolvedValueOnce(right(JWKeysSpy));
+    jest.spyOn(joseSpy, 'encrypt').mockResolvedValueOnce(right(rawEncryptedSpy));
+    jest.spyOn(userKeysRepositorySpy, 'getUserKeysByUserId').mockResolvedValueOnce(right(userKeysSpy));
+    jest.spyOn(userKeysRepositorySpy, 'updateUserKeys').mockResolvedValueOnce(right(userKeysSpy));
+
+    // act
+    const result = await sut.sign(userSpy);
+
+    // assert
+    expect(result.isLeft()).toBeTruthy();
+    expect(result.value).toBeInstanceOf(Error);
+  });
+
+  it('Should return left if asymmetricKeys.getKeysAsJWKKey returns left', async () => {
+    // arrange
+    const { sut } = makeSut();
+    jest.spyOn(asymmetricKeysSpy, 'generateKeys').mockReturnValueOnce(right(keysSpy));
+    jest.spyOn(asymmetricKeysSpy, 'getKeysAsJWKKey').mockResolvedValueOnce(left(new Error()));
+    jest.spyOn(joseSpy, 'encrypt').mockResolvedValueOnce(right(rawEncryptedSpy));
+    jest.spyOn(userKeysRepositorySpy, 'getUserKeysByUserId').mockResolvedValueOnce(right(userKeysSpy));
+    jest.spyOn(userKeysRepositorySpy, 'updateUserKeys').mockResolvedValueOnce(right(userKeysSpy));
+
+    // act
+    const result = await sut.sign(userSpy);
+
+    // assert
+    expect(result.isLeft()).toBeTruthy();
+    expect(result.value).toBeInstanceOf(Error);
+  });
+
+  it('Should return left if JOSE.encrypt returns left', async () => {
+    // arrange
+    const { sut } = makeSut();
+    jest.spyOn(asymmetricKeysSpy, 'generateKeys').mockReturnValueOnce(right(keysSpy));
+    const JWKeysSpy: JWKeys = {
+      privateJWKey: await privateJWKeySpy(),
+      publicJWKey: await publicJWKeySpy(),
+    };
+    jest.spyOn(asymmetricKeysSpy, 'getKeysAsJWKKey').mockResolvedValueOnce(right(JWKeysSpy));
+    jest.spyOn(joseSpy, 'encrypt').mockResolvedValueOnce(left(new Error()));
+    jest.spyOn(userKeysRepositorySpy, 'getUserKeysByUserId').mockResolvedValueOnce(right(userKeysSpy));
+    jest.spyOn(userKeysRepositorySpy, 'updateUserKeys').mockResolvedValueOnce(right(userKeysSpy));
+
+    // act
+    const result = await sut.sign(userSpy);
+
+    // assert
+    expect(result.isLeft()).toBeTruthy();
+    expect(result.value).toBeInstanceOf(Error);
+  });
+
+  it('Should return left if userKeysRepositorySpy.getUserKeysByUserId returns left', async () => {
+    // arrange
+    const { sut } = makeSut();
+    jest.spyOn(asymmetricKeysSpy, 'generateKeys').mockReturnValueOnce(right(keysSpy));
+    const JWKeysSpy: JWKeys = {
+      privateJWKey: await privateJWKeySpy(),
+      publicJWKey: await publicJWKeySpy(),
+    };
+    jest.spyOn(asymmetricKeysSpy, 'getKeysAsJWKKey').mockResolvedValueOnce(right(JWKeysSpy));
+    jest.spyOn(joseSpy, 'encrypt').mockResolvedValueOnce(right(rawEncryptedSpy));
+    jest.spyOn(userKeysRepositorySpy, 'getUserKeysByUserId').mockResolvedValueOnce(left(new Error()));
+    jest.spyOn(userKeysRepositorySpy, 'updateUserKeys').mockResolvedValueOnce(right(userKeysSpy));
+
+    // act
+    const result = await sut.sign(userSpy);
+
+    // assert
+    expect(result.isLeft()).toBeTruthy();
+    expect(result.value).toBeInstanceOf(Error);
+  });
+
+  it('Should return left if userKeysRepositorySpy.updateUserKeys returns left', async () => {
+    // arrange
+    const { sut } = makeSut();
+    jest.spyOn(asymmetricKeysSpy, 'generateKeys').mockReturnValueOnce(right(keysSpy));
+    const JWKeysSpy: JWKeys = {
+      privateJWKey: await privateJWKeySpy(),
+      publicJWKey: await publicJWKeySpy(),
+    };
+    jest.spyOn(asymmetricKeysSpy, 'getKeysAsJWKKey').mockResolvedValueOnce(right(JWKeysSpy));
+    jest.spyOn(joseSpy, 'encrypt').mockResolvedValueOnce(right(rawEncryptedSpy));
+    jest.spyOn(userKeysRepositorySpy, 'getUserKeysByUserId').mockResolvedValueOnce(right(userKeysSpy));
+    jest.spyOn(userKeysRepositorySpy, 'updateUserKeys').mockResolvedValueOnce(left(new Error()));
+
+    // act
+    const result = await sut.sign(userSpy);
+
+    // assert
+    expect(result.isLeft()).toBeTruthy();
+    expect(result.value).toBeInstanceOf(Error);
+  });
+
+  it('Should return left if userKeysRepositorySpy.createUserKeys returns left', async () => {
+    // arrange
+    const { sut } = makeSut();
+    jest.spyOn(asymmetricKeysSpy, 'generateKeys').mockReturnValueOnce(right(keysSpy));
+    const JWKeysSpy: JWKeys = {
+      privateJWKey: await privateJWKeySpy(),
+      publicJWKey: await publicJWKeySpy(),
+    };
+    jest.spyOn(asymmetricKeysSpy, 'getKeysAsJWKKey').mockResolvedValueOnce(right(JWKeysSpy));
+    jest.spyOn(joseSpy, 'encrypt').mockResolvedValueOnce(right(rawEncryptedSpy));
+    jest.spyOn(userKeysRepositorySpy, 'getUserKeysByUserId').mockResolvedValueOnce(right(undefined));
+    jest.spyOn(userKeysRepositorySpy, 'updateUserKeys').mockResolvedValueOnce(right(userKeysSpy));
+    jest.spyOn(userKeysRepositorySpy, 'createUserKeys').mockResolvedValueOnce(left(new Error()));
+
+    // act
+    const result = await sut.sign(userSpy);
+
+    // assert
+    expect(result.isLeft()).toBeTruthy();
+    expect(result.value).toBeInstanceOf(Error);
   });
 });
