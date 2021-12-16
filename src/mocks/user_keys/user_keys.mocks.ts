@@ -3,8 +3,8 @@ import { UserKeysCreationDTO } from "@business/dtos/user_keys/user_keys_creation
 import { UserKeys } from "@business/entities/user_keys";
 import { BaseError } from "@business/errors/base_error";
 import { Either } from "@shared/utils/either";
-import { PrivateKeySpy, PublicKeySpy } from "mocks/jose/jose.mocks";
-import { userSpy } from "mocks/users/users.mocks";
+import { PrivateKeySpy, PublicKeySpy } from "../jose/jose.mocks";
+import { userSpy } from "../users/users.mocks";
 
 export const userKeysCreateDTOSpy: UserKeysCreationDTO = {
   user: userSpy,

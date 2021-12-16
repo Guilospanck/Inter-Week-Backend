@@ -7,7 +7,12 @@ module.exports = {
     '!<rootDir>/src/routes/*.ts',
     '!<rootDir>/src/app.module.ts',
     '!<rootDir>/src/mocks/**/*.ts',
-    '!<rootDir>/src/shared/utils/*.ts'
+    '!<rootDir>/src/shared/utils/*.ts',
+    '!<rootDir>/src/business/**/*.ts',
+    '!<rootDir>/src/applications/errors/*.ts',
+    '!<rootDir>/src/infrastructure/adapters/*.ts',
+    '!<rootDir>/src/infrastructure/database/*.ts',
+    '!<rootDir>/src/infrastructure/http_server/*.ts',
   ],
   coverageDirectory: 'coverage',
   testEnvironment: 'node',
