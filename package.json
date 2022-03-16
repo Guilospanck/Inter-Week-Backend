@@ -37,7 +37,7 @@
   "devDependencies": {
     "@types/crypto-js": "^4.0.2",
     "@types/express": "^4.17.13",
-    "@types/jest": "^27.0.3",
+    "@types/jest": "^27.4.1",
     "@types/js-base64": "^3.3.1",
     "@types/jsonwebtoken": "^8.5.6",
     "@types/node": "^16.11.9",
