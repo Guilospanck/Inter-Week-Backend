@@ -5,9 +5,7 @@ import { Either, left, right } from '@shared_utils/either';
 import { IJose } from '@app/interfaces/ijose';
 
 export class Jose implements IJose {
-  constructor() { }
-
-  async encrypt(raw: any, publicKey: JWK.Key): Promise<Either<BaseError, string>> {
+  async encrypt(raw: string, publicKey: JWK.Key): Promise<Either<BaseError, string>> {
     if (!raw) return left(new Error('Missing raw data.'));
 
     try {
@@ -17,9 +15,9 @@ export class Jose implements IJose {
     } catch (error) {
       return left(new Error('Error trying to encrypt using JOSE.'));
     }
-  };
+  }
 
-  async decrypt(encrypted: string, privateKey: JWK.Key): Promise<Either<BaseError, any>> {
+  async decrypt(encrypted: string, privateKey: JWK.Key): Promise<Either<BaseError, string>> {
     if (!encrypted) return left(new Error('Missing encrypted data.'));
 
     try {
@@ -29,6 +27,6 @@ export class Jose implements IJose {
     } catch (error) {
       return left(new Error('Error trying to decrypt using JOSE.'));
     }
-  };
+  }
 
-};
+}

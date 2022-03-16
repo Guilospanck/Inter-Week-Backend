@@ -6,7 +6,7 @@ import { BaseError } from "@business/errors/base_error";
 import auth_config from "@shared/utils/auth_config";
 import { Either, left, right } from "@shared/utils/either";
 import { IBaseAuthenticationUsecase } from "@shared/utils/ibase_authentication.usecase";
-import { verify } from "jsonwebtoken";
+import { JwtPayload, verify } from "jsonwebtoken";
 
 export class UserAuthenticationUsecase implements IBaseAuthenticationUsecase {
   constructor(
@@ -15,7 +15,7 @@ export class UserAuthenticationUsecase implements IBaseAuthenticationUsecase {
     private readonly _asymmetricKeys: IAsymmetricKeys
   ) { }
 
-  async perform(token: string, userId: string): Promise<Either<BaseError, any>> {
+  async perform(token: string, userId: string): Promise<Either<BaseError, string | JwtPayload>> {
     // get public and private keys from userId
     const userKeys = await this._userKeysRepository.getUserKeysByUserId(userId);
     if (userKeys.isLeft()) return left(new Error(userKeys.value.message));

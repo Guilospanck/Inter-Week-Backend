@@ -20,7 +20,7 @@ export const userKeysSpy: UserKeys = {
 };
 
 export const userKeysRepositorySpy: IUserKeysRepository = {
-  createUserKeys: (userKeysDTO: UserKeysCreationDTO): Promise<Either<BaseError, UserKeys | undefined>> => jest.fn as any,
-  getUserKeysByUserId: (userId: string): Promise<Either<BaseError, UserKeys | undefined>> => jest.fn as any,
-  updateUserKeys: (id: string, userKeysDTO: UserKeysCreationDTO): Promise<Either<BaseError, UserKeys | undefined>> => jest.fn as any,
+  createUserKeys: (_userKeysDTO: UserKeysCreationDTO): Promise<Either<BaseError, UserKeys | undefined>> => jest.fn as any,
+  getUserKeysByUserId: (_userId: string): Promise<Either<BaseError, UserKeys | undefined>> => jest.fn as any,
+  updateUserKeys: (_id: string, _userKeysDTO: UserKeysCreationDTO): Promise<Either<BaseError, UserKeys | undefined>> => jest.fn as any,
 };

@@ -1,7 +1,7 @@
 import { AsymmetricKeys } from './asymmetric_keys';
 const crypto = require('crypto');
 
-import { rawToBeEncryptedSpy, PublicKeySpy, PrivateKeySpy, publicJWKeySpy, privateJWKeySpy, rawEncryptedSpy } from '../../mocks/jose/jose.mocks';
+import { PublicKeySpy, PrivateKeySpy } from '../../mocks/jose/jose.mocks';
 import { JWK } from 'node-jose';
 
 function makeSut() {

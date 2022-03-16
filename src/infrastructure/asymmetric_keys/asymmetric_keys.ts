@@ -5,8 +5,6 @@ import { Either, left, right } from '@shared_utils/either';
 import { IAsymmetricKeys, JWKeys, Keys } from '@app/interfaces/iasymmetric_keys';
 
 export class AsymmetricKeys implements IAsymmetricKeys {
-  constructor() { }
-
   generateKeys(): Either<BaseError, Keys> {
     try {
       const {
@@ -31,7 +29,7 @@ export class AsymmetricKeys implements IAsymmetricKeys {
     } catch (error) {
       return left(new Error('Error trying to generate key pair.'));
     }
-  };
+  }
 
   async getKeysAsJWKKey(keys: Keys): Promise<Either<BaseError, JWKeys>> {
     try {
@@ -48,5 +46,5 @@ export class AsymmetricKeys implements IAsymmetricKeys {
     } catch (error) {
       return left(new Error('Error trying to get string keys as JWK.Key'));
     }
-  };
+  }
 }

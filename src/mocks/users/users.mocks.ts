@@ -27,10 +27,10 @@ export const user2Spy: User = {
 };
 
 export const usersRepositorySpy: IUsersRepository = {
-  createUser: (user: UserCreationDTO): Promise<Either<BaseError, User | undefined>> => jest.fn as any,
-  getUserByEmail: (email: string): Promise<Either<BaseError, User | undefined>> => jest.fn as any,
-  getUserByEmailAndPassword: (email: string, password: string): Promise<Either<BaseError, User | undefined>> => jest.fn as any,
+  createUser: (_user: UserCreationDTO): Promise<Either<BaseError, User | undefined>> => jest.fn as any,
+  getUserByEmail: (_email: string): Promise<Either<BaseError, User | undefined>> => jest.fn as any,
+  getUserByEmailAndPassword: (_email: string, _password: string): Promise<Either<BaseError, User | undefined>> => jest.fn as any,
   getLastUser: (): Promise<Either<BaseError, User | undefined>> => jest.fn as any,
-  getUserById: (id: string): Promise<Either<BaseError, User | undefined>> => jest.fn as any,
-  updateUser: (id: string, user: UserCreationDTO): Promise<Either<BaseError, User | undefined>> => jest.fn as any
+  getUserById: (_id: string): Promise<Either<BaseError, User | undefined>> => jest.fn as any,
+  updateUser: (_id: string, _user: UserCreationDTO): Promise<Either<BaseError, User | undefined>> => jest.fn as any
 };

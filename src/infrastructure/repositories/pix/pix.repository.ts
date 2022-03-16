@@ -7,8 +7,7 @@ import { IPixRepository } from "@app/interfaces/ipix.repository";
 
 export class PixRepository implements IPixRepository {
   private repository: Repository<Pix>;
-  constructor() { }
-
+  
   public async createPixTransaction(pixCreateDTO: PixCreateDTO): Promise<Either<BaseError, Pix | undefined>> {
     try {
       this.repository = getRepository(Pix);

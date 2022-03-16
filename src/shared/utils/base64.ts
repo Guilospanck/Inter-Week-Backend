@@ -1,6 +1,6 @@
 interface IBase64Util {
   encode: (data: any) => string
-  decode: (word: string) => {} | string
+  decode: (word: string) => Record<string, unknown> | string
 }
 
 export const Base64Util = (): IBase64Util => {

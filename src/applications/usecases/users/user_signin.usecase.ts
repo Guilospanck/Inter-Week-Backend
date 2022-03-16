@@ -34,6 +34,7 @@ export class UserSigninUseCase implements IUserSigninUsecase {
     if (accessToken.isLeft()) return left(new InternalServerError('Error trying to get accessToken'));
 
     // @ts-expect-error
+    // deleting data usually raises ts error
     delete userExists.value.password;
 
     return right(

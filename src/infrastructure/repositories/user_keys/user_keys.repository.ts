@@ -7,7 +7,6 @@ import { IUserKeysRepository } from '@app/interfaces/iuser_keys.repository';
 
 export class UserKeysRepository implements IUserKeysRepository {
   private repository: Repository<UserKeys>;
-  constructor() { }
 
   public async createUserKeys(userKeysDTO: UserKeysCreationDTO): Promise<Either<BaseError, UserKeys | undefined>> {
     try {

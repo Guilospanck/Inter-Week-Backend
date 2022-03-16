@@ -7,7 +7,6 @@ import { UserCreationDTO } from '@business/dtos/users/user_creation.dto';
 
 export class UserRepository implements IUsersRepository {
   private repository: Repository<User>;
-  constructor() { }
 
   public async createUser(user: UserCreationDTO): Promise<Either<BaseError, User | undefined>> {
     try {

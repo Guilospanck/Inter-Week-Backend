@@ -1,6 +1,6 @@
 import { AuthSignUseCase } from './sign.usecase';
 import { userKeysRepositorySpy, userKeysSpy } from '../../../mocks/user_keys/user_keys.mocks'
-import { joseSpy, privateJWKeySpy, PrivateKeySpy, publicJWKeySpy, PublicKeySpy, rawEncryptedSpy } from '../../../mocks/jose/jose.mocks';
+import { joseSpy, privateJWKeySpy, publicJWKeySpy, rawEncryptedSpy } from '../../../mocks/jose/jose.mocks';
 import { asymmetricKeysSpy, keysSpy } from '../../../mocks/asymmetric_keys/asymmetric_keys.mocks';
 import { userSpy } from '../../../mocks/users/users.mocks';
 import { right, left } from '../../../shared/utils/either';

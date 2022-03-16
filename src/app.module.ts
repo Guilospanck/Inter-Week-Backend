@@ -3,9 +3,7 @@ import { HttpServer } from "@infra/http_server/http_server";
 import routes from './routes';
 
 export class AppModule {
-  constructor() {
-  }
-
+  
   public async connectToDatabase() {
     const databaseConnection = new DatabaseConnection();
     await databaseConnection.connect();

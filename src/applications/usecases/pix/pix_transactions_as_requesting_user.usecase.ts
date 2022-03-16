@@ -27,7 +27,7 @@ export class PixTransactionAsRequestingUserUsecase implements IPixTransactionAsR
     try {
       // deletes password from response and returns data sorted by date
       const response = pixTransactions.value?.map((data) => {
-        // @ts-expect-error
+        // @ts-expect-error deleting data usually raises ts error
         delete data?.payingUser?.password;
         return data;
       }).sort((a, b) => {

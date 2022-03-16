@@ -1,7 +1,7 @@
 import { UserAuthenticationUsecase } from './user_authentication.usecase';
 import { userKeysRepositorySpy, userKeysSpy } from '../../../mocks/user_keys/user_keys.mocks'
-import { joseSpy, privateJWKeySpy, PrivateKeySpy, publicJWKeySpy, PublicKeySpy, rawEncryptedSpy, rawToBeEncryptedSpy, jwtValidatedSpy } from '../../../mocks/jose/jose.mocks';
-import { asymmetricKeysSpy, keysSpy } from '../../../mocks/asymmetric_keys/asymmetric_keys.mocks';
+import { joseSpy, privateJWKeySpy, publicJWKeySpy, rawEncryptedSpy, rawToBeEncryptedSpy, jwtValidatedSpy } from '../../../mocks/jose/jose.mocks';
+import { asymmetricKeysSpy } from '../../../mocks/asymmetric_keys/asymmetric_keys.mocks';
 import { userSpy } from '../../../mocks/users/users.mocks';
 import { right, left } from '../../../shared/utils/either';
 import { JWKeys } from "../../../applications/interfaces/iasymmetric_keys";
@@ -21,7 +21,27 @@ describe('UserAuthenticationUsecase', () => {
     jest.restoreAllMocks();
   });
 
-  it('Should return a validate JWT payload', async () => {
+  it('Should return a valid JWT payload', async () => {
+    // arrange
+    const { sut } = makeSut();
+    jest.spyOn(userKeysRepositorySpy, 'getUserKeysByUserId').mockResolvedValueOnce(right(userKeysSpy));
+    const JWKeysSpy: JWKeys = {
+      privateJWKey: await privateJWKeySpy(),
+      publicJWKey: await publicJWKeySpy(),
+    };
+    jest.spyOn(asymmetricKeysSpy, 'getKeysAsJWKKey').mockResolvedValueOnce(right(JWKeysSpy));
+    jest.spyOn(joseSpy, 'decrypt').mockResolvedValueOnce(right(rawToBeEncryptedSpy));
+    jest.spyOn(jwt, 'verify').mockImplementation(() => jwtValidatedSpy);
+
+    // act
+    const result = await sut.perform(rawEncryptedSpy, userSpy.id);
+
+    // assert
+    expect(result.isRight()).toBeTruthy();
+    expect(result.value).toEqual(jwtValidatedSpy);
+  });
+
+  it('Should return left because JWT payload is no longer valid', async () => {
     // arrange
     const { sut } = makeSut();
     jest.spyOn(userKeysRepositorySpy, 'getUserKeysByUserId').mockResolvedValueOnce(right(userKeysSpy));
@@ -36,9 +56,8 @@ describe('UserAuthenticationUsecase', () => {
     const result = await sut.perform(rawEncryptedSpy, userSpy.id);
 
     // assert
-    expect(result.isRight()).toBeTruthy();
-    expect(result.value).toEqual(jwtValidatedSpy);
-  });
+    expect(result.isLeft()).toBeTruthy();
+  })
 
   it('Should return left if userKeysRepository.getUserKeysByUserId is left', async () => {
     // arrange
@@ -82,10 +101,6 @@ describe('UserAuthenticationUsecase', () => {
     // arrange
     const { sut } = makeSut();
     jest.spyOn(userKeysRepositorySpy, 'getUserKeysByUserId').mockResolvedValueOnce(right(userKeysSpy));
-    const JWKeysSpy: JWKeys = {
-      privateJWKey: await privateJWKeySpy(),
-      publicJWKey: await publicJWKeySpy(),
-    };
     jest.spyOn(asymmetricKeysSpy, 'getKeysAsJWKKey').mockResolvedValueOnce(left(new Error()));
     jest.spyOn(joseSpy, 'decrypt').mockResolvedValueOnce(right(rawToBeEncryptedSpy));
 

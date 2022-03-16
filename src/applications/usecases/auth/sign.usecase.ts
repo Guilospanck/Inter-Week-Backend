@@ -20,7 +20,7 @@ export class AuthSignUseCase implements IAuthSignUsecase {
   async sign(userData: User): Promise<Either<BaseError, string>> {
     const user = { ...userData };
 
-    // @ts-expect-error
+    // @ts-expect-error deleting data usually raises ts error    
     delete user.password;
 
     // gets JWT Token

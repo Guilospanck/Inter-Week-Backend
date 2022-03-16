@@ -1,5 +1,4 @@
 import { HttpRequest, HttpResponse } from "@infra/http";
-import { right } from "@shared/utils/either";
 import { IBaseAuthenticationUsecase } from "@shared/utils/ibase_authentication.usecase";
 import { BaseMiddleware } from "./base_middleware";
 

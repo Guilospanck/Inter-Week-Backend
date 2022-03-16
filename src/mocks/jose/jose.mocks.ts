@@ -80,8 +80,8 @@ export const publicJWKeySpy = async () => await JWK.asKey(PublicKeySpy, 'pem');
 export const privateJWKeySpy = async () => await JWK.asKey(PrivateKeySpy, 'pem');
 
 export const joseSpy: IJose = {
-  encrypt: (raw: any, publicKey: JWK.Key): Promise<Either<BaseError, string>> => jest.fn as any,
-  decrypt: (encrypted: string, privateKey: JWK.Key): Promise<Either<BaseError, any>> => jest.fn as any
+  encrypt: (_raw: string, _publicKey: JWK.Key): Promise<Either<BaseError, string>> => jest.fn as any,
+  decrypt: (_encrypted: string, _privateKey: JWK.Key): Promise<Either<BaseError, string>> => jest.fn as any
 };
 
 export const jwtValidatedSpy = {"accountDigit": 94, "accountNumber": 158203, "email": "batata2@mail.com", "exp": 1639701784, "firstName": "Batata2", "iat": 1639672984, "id": "13a221e8-b6f5-4b5c-9ac3-00ccaed5c6c4", "lastName": "email", "sub": "13a221e8-b6f5-4b5c-9ac3-00ccaed5c6c4", "wallet": 1};
