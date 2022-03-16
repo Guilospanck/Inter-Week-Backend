@@ -1,0 +1,14 @@
+version: 2
+updates:
+
+  # Maintain dependencies for npm
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "daily"
+  
+  # Maintain dependencies for yarn
+  - package-ecosystem: "yarn"
+    directory: "/"
+    schedule:
+      interval: "daily"
