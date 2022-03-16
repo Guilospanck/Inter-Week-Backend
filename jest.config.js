@@ -13,6 +13,7 @@ module.exports = {
     '!<rootDir>/src/infrastructure/adapters/*.ts',
     '!<rootDir>/src/infrastructure/database/*.ts',
     '!<rootDir>/src/infrastructure/http_server/*.ts',
+    '!<rootDir>/src/infrastructure/http.ts',
   ],
   coverageDirectory: 'coverage',
   testEnvironment: 'node',
