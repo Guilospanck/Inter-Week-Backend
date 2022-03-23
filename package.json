@@ -41,7 +41,7 @@
     "@types/js-base64": "^3.3.1",
     "@types/jsonwebtoken": "^8.5.8",
     "@types/node": "^17.0.22",
-    "@types/node-jose": "^1.1.9",
+    "@types/node-jose": "^1.1.10",
     "@typescript-eslint/eslint-plugin": "^5.16.0",
     "@typescript-eslint/parser": "^5.4.0",
     "eslint-config-airbnb-base": "^15.0.0",
