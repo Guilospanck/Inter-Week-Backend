@@ -32,7 +32,7 @@
     "nodemon": "^2.0.19",
     "postgre": "^0.1.8",
     "reflect-metadata": "^0.1.13",
-    "typeorm": "^0.3.7"
+    "typeorm": "^0.3.9"
   },
   "devDependencies": {
     "@types/crypto-js": "^4.1.1",
