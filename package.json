@@ -29,7 +29,7 @@
     "js-base64": "^3.7.2",
     "jsonwebtoken": "^8.5.1",
     "node-jose": "^2.1.1",
-    "nodemon": "^2.0.19",
+    "nodemon": "^2.0.20",
     "postgre": "^0.1.8",
     "reflect-metadata": "^0.1.13",
     "typeorm": "^0.3.9"
